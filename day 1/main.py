@@ -1,6 +1,3 @@
-import sys
-
-
 def main():
     with open("input.txt", mode="r", encoding="utf8") as file:
         calories_list = []
