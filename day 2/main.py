@@ -58,7 +58,6 @@ def part2():
         for strategy in content:
             opponent, conclusion = strategy.split()
             player = get_move(opponent, conclusion)
-            print(player)
             total_score += calculate_score(opponent, player) + score_dict.get(player)
         print(total_score)
 
