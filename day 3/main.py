@@ -12,7 +12,7 @@ def split_string(string):
     length = round(len(string)/2)
     comp1 = string[:length]
     comp2 = string[length:]
-    return comp1, comp2
+    return set(comp1), set(comp2)
 
 
 def part1():
@@ -21,11 +21,7 @@ def part1():
         total = 0
         for rucksack in rucksacks:
             comp1, comp2 = split_string(rucksack)
-            already_found = ""
-            for char in comp1:
-                if char in comp2 and char not in already_found:
-                    already_found += char
-                    total += get_priority(char)
+            total += get_priority(list(comp1.intersection(comp2))[0])
         print(total)
 
 
@@ -41,5 +37,5 @@ def part2():
                     break
         print(total)
 
-#part1()
-part2()
+part1()
+#part2()
