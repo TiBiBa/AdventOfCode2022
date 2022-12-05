@@ -21,7 +21,7 @@ def split_instructions(instruction):
     return int(amount), int(start), int(loc)
 
 
-def part1():
+def main(reverse=True):
     with open("input.txt", mode="r", encoding="utf8") as file:
         data = file.read().splitlines()
         crates = data[:8]
@@ -33,7 +33,8 @@ def part1():
             amount, start, loc = split_instructions(instruction)
 
             current_crates = list(crates.get(start)[-amount:])
-            current_crates = list(reversed(current_crates))
+            if reverse:
+                current_crates = list(reversed(current_crates))
             crates[start] = crates.get(start)[:-amount]
             crates[loc] = crates.get(loc) + current_crates
         key = ""
@@ -41,26 +42,4 @@ def part1():
             key += crates[i][-1]
         print(key)
 
-
-def part2():
-    with open("input.txt", mode="r", encoding="utf8") as file:
-        data = file.read().splitlines()
-        crates = data[:8]
-        instructions = data[10:]
-
-        crates = create_crate_structure(crates)
-
-        for instruction in instructions:
-            amount, start, loc = split_instructions(instruction)
-
-            current_crates = list(crates.get(start)[-amount:])
-            crates[start] = crates.get(start)[:-amount]
-            crates[loc] = crates.get(loc) + current_crates
-        key = ""
-        for i in range(1, len(crates)+1):
-            key += crates[i][-1]
-        print(key)
-
-
-#part1()
-part2()
+main()
