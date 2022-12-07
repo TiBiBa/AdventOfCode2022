@@ -23,6 +23,12 @@ def main():
                         else:
                             current_path += folder
                         folder_sizes[current_path] = folder_sizes.get(current_path, 0) + int(commands[0])
+
+    # Part 1
     print(sum(value for name, value in folder_sizes.items() if value < 100000))
+
+    # Part 2
+    needed_space = 30000000 - (70000000 - folder_sizes.get("/"))
+    print(min(value for name, value in folder_sizes.items() if value >= needed_space))
 
 main()
