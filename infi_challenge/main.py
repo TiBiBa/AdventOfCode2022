@@ -5,7 +5,11 @@ class Santa:
         self.posY = 0
 
     def change_direction(self, change):
-        self.direction = (self.direction + change) % 360
+        self.direction = self.direction + change
+        if self.direction < 0:
+            self.direction = 360 - (abs(self.direction) % 360)
+        else:
+            self.direction = self.direction % 360
 
     def move(self, distance):
         # We can hard-code this as the turns are always % 45 and the diagonal distance is simplified
@@ -29,9 +33,6 @@ class Santa:
         elif self.direction == 315:
             self.posX -= distance
             self.posY += distance
-        else:
-            print("Dit zou niet mogen!")
-            exit(1)
 
     def get_location(self):
         return self.posX, self.posY
