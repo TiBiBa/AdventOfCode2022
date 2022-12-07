@@ -1,7 +1,7 @@
 def main():
     with open("input.txt", mode="r", encoding="utf8") as file:
         folder_sizes = {}
-        folder_structure = []
+        folder_path = []
 
         lines = file.read().splitlines()
         for line in lines:
@@ -9,19 +9,18 @@ def main():
             if commands[0] == "$":
                 if commands[1] == "cd":
                     if commands[2] == "..":
-                        folder_structure = folder_structure[:-1]
+                        folder_path = folder_path[:-1]
                     elif commands[2] == "/":
-                        folder_structure = ["/"]
+                        folder_path = ["/"]
                     else:
-                        folder_structure.append(commands[2])
+                        folder_path.append(commands[2])
             else:
                 if commands[0] != "dir":
                     current_path = ""
-                    for folder in folder_structure:
+                    for folder in folder_path:
                         if current_path != "/" and folder != "/":
-                            current_path += "/" + folder
-                        else:
-                            current_path += folder
+                            current_path += "/"
+                        current_path += folder
                         folder_sizes[current_path] = folder_sizes.get(current_path, 0) + int(commands[0])
 
     # Part 1
@@ -33,3 +32,4 @@ def main():
 
 
 main()
+
