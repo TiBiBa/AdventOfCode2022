@@ -31,4 +31,5 @@ def main():
     needed_space = 30000000 - (70000000 - folder_sizes.get("/"))
     print(min(value for name, value in folder_sizes.items() if value >= needed_space))
 
+
 main()
