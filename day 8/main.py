@@ -1,32 +1,46 @@
 import numpy as np
 
 
+def calculate_sight(value, trees):
+    sight = 1
+    if not np.size(trees):
+        return 0
+    for tree in trees:
+        if value > tree:
+            sight += 1
+        else:
+            return min(len(trees), sight)
+    return min(len(trees), sight)
+
+
 def main():
-    # Keep track of a list of not-visible trees, also count all trees total
-    # Walk from four directions
+    array = np.genfromtxt("input.txt", delimiter=1)
+    visible_trees = np.empty(array.shape, dtype=str)
+    sight_trees = np.empty(array.shape)
 
-    visible_trees = []
+    # Part 1
+    for _ in range(0, 4):
+        for index_x, line in enumerate(array):
+            highest = -1
+            for index_y, tree in enumerate(line):
+                if tree > highest:
+                    highest = tree
+                    visible_trees[index_x, index_y] = "x"
+        array = np.rot90(array)
+        visible_trees = np.rot90(visible_trees)
+    print(np.count_nonzero(visible_trees == 'x'))
 
-    with open("test.txt", mode="r", encoding="utf8") as file:
-        tree_lines = file.read().splitlines()
+    # Part 2
+    for index_x, line in enumerate(array):
+        for index_y, tree in enumerate(line):
+            right = calculate_sight(tree, line[index_y+1:])
+            left = calculate_sight(tree, np.flip(line[:index_y]))
+            down = calculate_sight(tree, array[index_x+1:, index_y])
+            up = calculate_sight(tree, np.flip(array[:index_x, index_y]))
 
-        # From left to right
-        for line in range(0, len(tree_lines)):
-            highest = tree_lines[line][0]
-            for column in range(0, len(tree_lines[line])):
-                if tree_lines[line][column] > highest:
-                    highest = tree_lines[line][column]
-                    tree = (line, column)
-                    visible_trees.append(tree)
+            score = up * left * down * right
+            sight_trees[index_x, index_y] = score
+    print(np.max(sight_trees))
 
-        # From right to left
-        tree_lines.reverse()
-        for line in range(0, len(tree_lines)):
-            highest = tree_lines[line][0]
-            for column in range(0, len(tree_lines[line])):
-                if tree_lines[line][column] > highest:
-                    highest = tree_lines[line][column]
-                    tree = (line, column)
-                    visible_trees.append(tree)
 
 main()
