@@ -58,4 +58,25 @@ def part1():
         print(len(visited))
 
 
-part1()
+def part2():
+    with open("input.txt", mode="r", encoding="utf8") as file:
+        pos_h = [0, 0]
+        pos_t = {}
+        visited = set()
+
+        for i in range(1, 10):
+            pos_t[i] = [0, 0]
+
+        instructions = file.read().splitlines()
+        for instruction in instructions:
+            direction, length = instruction.split()
+            for i in range(0, int(length)):
+                pos_h = move_head(pos_h, direction)
+                pos_t[1] = move_tail(pos_t[1], pos_h)
+                for j in range(2, 10):
+                    pos_t[j] = move_tail(pos_t[j], pos_t[j - 1])
+                visited.add(tuple(pos_t[9]))
+        print(len(visited))
+
+
+part2()
