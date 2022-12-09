@@ -42,27 +42,12 @@ def move_tail(pos_t, pos_h):
     return pos_t
 
 
-def part1():
-    with open("input.txt", mode="r", encoding="utf8") as file:
-        pos_h = [0, 0]
-        pos_t = [0, 0]
-        visited = set()
-
-        instructions = file.read().splitlines()
-        for instruction in instructions:
-            direction, length = instruction.split()
-            for i in range(0, int(length)):
-                pos_h = move_head(pos_h, direction)
-                pos_t = move_tail(pos_t, pos_h)
-                visited.add(tuple(pos_t))
-        print(len(visited))
-
-
-def part2():
+def main():
     with open("input.txt", mode="r", encoding="utf8") as file:
         pos_h = [0, 0]
         pos_t = {}
-        visited = set()
+        visited_1 = set()
+        visited_9 = set()
 
         for i in range(1, 10):
             pos_t[i] = [0, 0]
@@ -75,8 +60,11 @@ def part2():
                 pos_t[1] = move_tail(pos_t[1], pos_h)
                 for j in range(2, 10):
                     pos_t[j] = move_tail(pos_t[j], pos_t[j - 1])
-                visited.add(tuple(pos_t[9]))
-        print(len(visited))
+
+                visited_1.add(tuple(pos_t[1]))
+                visited_9.add(tuple(pos_t[9]))
+        print(len(visited_1))
+        print(len(visited_9))
 
 
-part2()
+main()
