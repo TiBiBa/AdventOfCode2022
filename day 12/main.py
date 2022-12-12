@@ -9,7 +9,7 @@ def char_to_index(char):
     if char == "S":
         return 1
     alphabet = "abcdefghijklmnopqrstuvwxyz"
-    return alphabet.index(char)+1
+    return alphabet.index(char) + 1
 
 
 def get_node(area, char):
@@ -37,11 +37,11 @@ def get_neighbour_edges(x, y, area):
 
     if x > 0 and char_to_index(area[y][x - 1]) <= current_value + 1:
         edges.append([current_node, index_to_node(len(area[0]), y, x - 1)])
-    if x < len(area[0])-1 and char_to_index(area[y][x + 1]) <= current_value + 1:
+    if x < len(area[0]) - 1 and char_to_index(area[y][x + 1]) <= current_value + 1:
         edges.append([current_node, index_to_node(len(area[0]), y, x + 1)])
     if y > 0 and char_to_index(area[y - 1][x]) <= current_value + 1:
         edges.append([current_node, index_to_node(len(area[0]), y - 1, x)])
-    if y < len(area)-1 and char_to_index(area[y + 1][x]) <= current_value + 1:
+    if y < len(area) - 1 and char_to_index(area[y + 1][x]) <= current_value + 1:
         edges.append([current_node, index_to_node(len(area[0]), y + 1, x)])
     return edges
 
@@ -58,14 +58,14 @@ def main():
                 graph.add_edge(edge[0], edge[1])
 
     # Part 1
-    print(len(nx.shortest_path(graph, source=start, target=dest))-1)
+    print(len(nx.shortest_path(graph, source=start, target=dest)) - 1)
 
     # Part 2
     options = get_starting_nodes(area)
     shortest_path = None
     for option in options:
         try:
-            attempted_path = len(nx.shortest_path(graph, source=option, target=dest))-1
+            attempted_path = len(nx.shortest_path(graph, source=option, target=dest)) - 1
             if not shortest_path:
                 shortest_path = attempted_path
             elif attempted_path < shortest_path:
