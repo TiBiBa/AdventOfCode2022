@@ -55,6 +55,7 @@ def main():
         depth = get_cave_depth(rock_coordinates)
         width = get_cave_width(rock_coordinates)
 
+        # Part 1
         cave = np.full((depth, width[1] + 1), ".", dtype=str)
         for coordinate in rock_coordinates:
             cave[coordinate[1], coordinate[0]] = "#"
@@ -63,16 +64,38 @@ def main():
         try:
             while True:
                 units += 1
-                grain = [500, 0]
+                grain = [500, -1]
                 move = get_move(cave, grain)
                 while move:
-                    cave[grain[1], grain[0]] = "."
+                    if grain[1] >= 0:
+                        cave[grain[1], grain[0]] = "."
                     cave[move[0], move[1]] = "x"
                     grain = [move[1], move[0]]
                     move = get_move(cave, grain)
         except IndexError:
             print(units - 1)
-            exit(1)
 
+        # Part 2
+        cave = np.full((depth+2, 999999), ".", dtype=str)
+        for coordinate in rock_coordinates:
+            cave[coordinate[1], coordinate[0]] = "#"
+        # Add the bottom row
+        for i in range(0, 999999):
+            cave[depth+1, i] = "#"
+
+        units = 0
+        while True:
+            units += 1
+            grain = [500, -1]
+            move = get_move(cave, grain)
+            while move:
+                if grain[1] >= 0:
+                    cave[grain[1], grain[0]] = "."
+                cave[move[0], move[1]] = "x"
+                grain = [move[1], move[0]]
+                move = get_move(cave, grain)
+            if cave[0, 500] == "x":
+                break
+        print(units)
 
 main()
