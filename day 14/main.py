@@ -75,16 +75,17 @@ def main():
         except IndexError:
             print(units - 1)
 
+        INFINITY_BOTTOM = 999999
         # Part 2
-        cave = np.full((depth+2, 999999), ".", dtype=str)
+        cave = np.full((depth+2, INFINITY_BOTTOM), ".", dtype=str)
         for coordinate in rock_coordinates:
             cave[coordinate[1], coordinate[0]] = "#"
         # Add the bottom row
-        for i in range(0, 999999):
+        for i in range(0, INFINITY_BOTTOM):
             cave[depth+1, i] = "#"
 
         units = 0
-        while True:
+        while cave[0, 500] != "x":
             units += 1
             grain = [500, -1]
             move = get_move(cave, grain)
@@ -94,8 +95,7 @@ def main():
                 cave[move[0], move[1]] = "x"
                 grain = [move[1], move[0]]
                 move = get_move(cave, grain)
-            if cave[0, 500] == "x":
-                break
         print(units)
+
 
 main()
